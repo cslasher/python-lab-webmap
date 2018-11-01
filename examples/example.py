@@ -12,6 +12,16 @@ html = '''
 Height: {1} m
 '''
 
+
+def color_producer(elev):
+    if elev < 1500:
+        return 'green'
+    if 1500 <= elev < 3000:
+        return 'orange'
+    if elev >= 3000:
+        return 'red'
+
+
 map = folium.Map(location=[44, -120],
                  zoom_start=6, tiles='Mapbox Bright')
 
@@ -19,11 +29,7 @@ fg = folium.FeatureGroup(name='My Map')
 
 for name, elev, lat, lon in zip(name, elev, lat, lon):
     fg.add_child(folium.Marker(location=[lat, lon], popup=html.format(
-        name, str(elev)), icon=(folium.Icon(color='blue'))))
-
-# for index, vol in volcanoes.iterrows():
-#     fg.add_child(folium.Marker(location=[vol.LAT, vol.LON],
-#                                popup='Here ' + str(index) + '!', icon=(folium.Icon(color='blue'))))
+        name, str(elev)), icon=(folium.Icon(color=color_producer(elev)))))
 
 map.add_child(fg)
 
