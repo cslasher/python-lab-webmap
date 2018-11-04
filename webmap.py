@@ -33,15 +33,15 @@ map = folium.Map(location=[44, -120], zoom_start=6, tiles='Mapbox Bright')
 
 fg = folium.FeatureGroup(name='My Map')
 
-for name, elev, lat, lon in zip(name, elev, lat, lon):
-    fg.add_child(folium.CircleMarker(location=[lat, lon], popup=html.format(
-        name, str(elev)), fill=True, fill_opacity=opacity, fill_color=color_producer(elev), color='grey'))
-
 fg.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(),
                             style_function=lambda
                             x: {'fillColor': 'green' if x['properties']['POP2005'] < pop_tier_one
                                 else 'orange' if x['properties']['POP2005'] < pop_tier_two
                                 else 'red'}))
+                                
+for name, elev, lat, lon in zip(name, elev, lat, lon):
+    fg.add_child(folium.CircleMarker(location=[lat, lon], popup=html.format(
+        name, str(elev)), fill=True, fill_opacity=opacity, fill_color=color_producer(elev), color='grey'))
 
 map.add_child(fg)
 
