@@ -27,8 +27,8 @@ map = folium.Map(location=[44, -120], zoom_start=6, tiles='Mapbox Bright')
 fg = folium.FeatureGroup(name='My Map')
 
 for name, elev, lat, lon in zip(name, elev, lat, lon):
-    fg.add_child(folium.Marker(location=[lat, lon], popup=html.format(
-        name, str(elev)), icon=(folium.Icon(color=color_producer(elev)))))
+    fg.add_child(folium.CircleMarker(location=[lat, lon], popup=html.format(
+        name, str(elev)), fill=True, fill_opacity=0.8, fill_color=color_producer(elev), color='grey'))
 
 map.add_child(fg)
 
