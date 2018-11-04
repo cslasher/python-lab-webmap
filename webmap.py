@@ -1,7 +1,7 @@
 import folium
 import pandas
 
-volcanoes = pandas.read_csv('./examples/Volcanoes.csv')
+volcanoes = pandas.read_csv('Volcanoes.csv')
 lat = list(volcanoes.LAT)
 lon = list(volcanoes.LON)
 name = list(volcanoes.NAME)
@@ -22,8 +22,7 @@ def color_producer(elev):
         return 'red'
 
 
-map = folium.Map(location=[44, -120],
-                 zoom_start=6, tiles='Mapbox Bright')
+map = folium.Map(location=[44, -120], zoom_start=6, tiles='Mapbox Bright')
 
 fg = folium.FeatureGroup(name='My Map')
 
@@ -33,4 +32,4 @@ for name, elev, lat, lon in zip(name, elev, lat, lon):
 
 map.add_child(fg)
 
-map.save('example.html')
+map.save('webmap.html')
