@@ -1,6 +1,10 @@
 import folium
 import pandas
 
+low_elev = 1500
+mid_elev = 3000
+opacity = 0.8
+
 volcanoes = pandas.read_csv('Volcanoes.csv')
 lat = list(volcanoes.LAT)
 lon = list(volcanoes.LON)
@@ -14,11 +18,11 @@ Height: {1} m
 
 
 def color_producer(elev):
-    if elev < 1500:
+    if elev < low_elev:
         return 'green'
-    if 1500 <= elev < 3000:
+    if low_elev <= elev < mid_elev:
         return 'orange'
-    if elev >= 3000:
+    if elev >= mid_elev:
         return 'red'
 
 
@@ -28,7 +32,7 @@ fg = folium.FeatureGroup(name='My Map')
 
 for name, elev, lat, lon in zip(name, elev, lat, lon):
     fg.add_child(folium.CircleMarker(location=[lat, lon], popup=html.format(
-        name, str(elev)), fill=True, fill_opacity=0.8, fill_color=color_producer(elev), color='grey'))
+        name, str(elev)), fill=True, fill_opacity=opacity, fill_color=color_producer(elev), color='grey'))
 
 map.add_child(fg)
 
