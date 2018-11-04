@@ -31,18 +31,21 @@ def color_producer(elev):
 
 map = folium.Map(location=[44, -120], zoom_start=6, tiles='Mapbox Bright')
 
-fg = folium.FeatureGroup(name='My Map')
+fgp = folium.FeatureGroup(name='Populations')
 
-fg.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(),
-                            style_function=lambda
-                            x: {'fillColor': 'green' if x['properties']['POP2005'] < pop_tier_one
-                                else 'orange' if x['properties']['POP2005'] < pop_tier_two
-                                else 'red'}))
-                                
+fgp.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(),
+                             style_function=lambda
+                             x: {'fillColor': 'green' if x['properties']['POP2005'] < pop_tier_one
+                                 else 'orange' if x['properties']['POP2005'] < pop_tier_two
+                                 else 'red'}))
+
+fgv = folium.FeatureGroup(name='Vocanoes')
+
 for name, elev, lat, lon in zip(name, elev, lat, lon):
-    fg.add_child(folium.CircleMarker(location=[lat, lon], popup=html.format(
+    fgv.add_child(folium.CircleMarker(location=[lat, lon], popup=html.format(
         name, str(elev)), fill=True, fill_opacity=opacity, fill_color=color_producer(elev), color='grey'))
 
-map.add_child(fg)
-
+map.add_child(fgp)
+map.add_child(fgv)
+map.add_child(folium.LayerControl())
 map.save('webmap.html')
